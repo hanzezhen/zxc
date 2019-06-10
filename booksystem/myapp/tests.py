@@ -17,13 +17,27 @@ def isind(ydate,timestart,shichang):
     nowtime = datetime.datetime.now()
     ft = yuyuetime-datetime.timedelta(hours=1)
     at = yuyuetime+datetime.timedelta(hours=shichang)
-    at_s = datetime.datetime.strftime(at,'%H：%M')
+    print('at=',type(at))
+    at_s = datetime.datetime.strftime(at, '%H:%M')
+    at_s=at_s.replace(':','：')
     # if (nowtime-ft).total_seconds()>0 and (at-nowtime).total_seconds()>0 :
     if  (at - nowtime).total_seconds() > 0:
         if (nowtime - ft).total_seconds() > 0 :
             return True,True,at_s
         else:return True,False,at_s
     else : return False,False,at_s
+
+def isin6hour(ydate,timestart):
+    ydate = datetime.datetime.strftime(ydate, '%Y-%m-%d')
+    yuyuetime = ydate + ' ' + timestart.replace('：', ':') + ':00'
+    yuyuetime = datetime.datetime.strptime(yuyuetime, "%Y-%m-%d %H:%M:%S")
+    nowtime = datetime.datetime.now()
+    ft = yuyuetime - datetime.timedelta(hours=6)
+    if (nowtime-ft).total_seconds()>0:return True
+    else:return False
+
+
+
 
 
 def addteacher(request):
@@ -163,12 +177,12 @@ def myappointment(request):
 class equi_p:
     def __init__(self,stu,ep):
         a=quanxian.objects.filter(qsid=stu).filter(qeid=ep)
-        print('a:',stu,ep,a)
         if a:
             self.quanxian1 = 1
         else:self.quanxian1 = 0
         self.eid=ep.eid
         self.name = ep.ename
+        self.epic = ep.epic
 
 
 @checklogin
@@ -201,12 +215,12 @@ def appoint(request,num1):
     name = request.session.get('username')
     stu = student.objects.filter(sname=name)[0]
     ep = equipment.objects.filter(eid=num1)[0]
-    stimelist = list(range(7))
+    stimelist = list(range(14))
     rangelist = list(range(14))
     now_time = datetime.datetime.now()
     datelist = dateRange(now_time)
     yue = yuyue.objects.filter(yeid=ep).filter(isquxiao=False)
-    yueli=np.zeros((24,7),dtype=object)
+    yueli=np.zeros((24,14),dtype=object)
     kkk = 0
     for item in datelist:
         a= datetime.datetime.strptime(item, '%Y-%m-%d')
@@ -216,7 +230,7 @@ def appoint(request,num1):
                 ts = ii.ytimestart
                 try:
                     ts=ts.replace(':',"：")
-                except:print('ok')
+                except:print()
                 st = r'([1-9]+)：'
                 p = re.compile(st)
                 sss = re.search(p, ts).group(1)
@@ -231,8 +245,8 @@ def appoint(request,num1):
     for gi in give:
         # print(gi)
         aa=list(gi)
+        # print('aa',aa)
         chuandi.append(aa)
-    print(chuandi[7])
 
     if stu.isstudent == False:
         ra = 0

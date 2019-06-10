@@ -128,7 +128,7 @@
                     {% endif %}
                     {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 8：00 - 9：00</td>
                 {% for i in yueli2 %}
                 {% if not i == 0 %}
@@ -142,7 +142,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 9：00 - 10：00</td>
                 {% for i in yueli3 %}
                 {% if not i == 0 %}
@@ -156,7 +156,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 10：00 - 11：00</td>
                 {% for i in yueli4 %}
                 {% if not i == 0 %}
@@ -170,7 +170,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 11：00 - 12：00</td>
                 {% for i in yueli5 %}
                 {% if not i == 0 %}
@@ -184,7 +184,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 12：00 - 13：00</td>
                 {% for i in yueli6 %}
                 {% if not i == 0 %}
@@ -198,7 +198,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 13：00 - 14：00</td>
                 {% for i in yueli7 %}
                 {% if not i == 0 %}
@@ -212,7 +212,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 14：00 - 15：00</td>
                 {% for i in yueli8 %}
                 {% if not i == 0 %}
@@ -226,7 +226,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 15：00 - 16：00</td>
                 {% for i in yueli9 %}
                 {% if not i == 0 %}
@@ -240,7 +240,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 16：00 - 17：00</td>
                 {% for i in yueli10 %}
                 {% if not i == 0 %}
@@ -254,7 +254,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 17：00 - 18：00</td>
                 {% for i in yueli11 %}
                 {% if not i == 0 %}
@@ -268,7 +268,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 18：00 - 19：00</td>
                 {% for i in yueli12 %}
                 {% if not i == 0 %}
@@ -282,7 +282,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 19：00 - 20：00</td>
                 {% for i in yueli13 %}
                 {% if not i == 0 %}
@@ -296,7 +296,7 @@
                 {% endif %}
                 {% endfor %}
                 </tr>
-
+            <tr>
                 <td> 20：00 - 21：00</td>
                 {% for i in yueli14 %}
                 {% if not i == 0 %}
@@ -311,7 +311,51 @@
                 {% endfor %}
 
                 </tr>
+            <tr>
+                <td> 21：00 - 22：00</td>
+                {% for i in yueli15 %}
+                {% if not i == 0 %}
+                <td class="wo">
+                    {{ i }}
+                </td>
+                {% else %}
+                <td>
+                    <button value="{{forloop.counter}}and15" onclick="">点击预约</button>
+                </td>
+                {% endif %}
+                {% endfor %}
 
+                </tr>
+                        <tr>
+                <td> 22：00 - 23：00</td>
+                {% for i in yueli16 %}
+                {% if not i == 0 %}
+                <td class="wo">
+                    {{ i }}
+                </td>
+                {% else %}
+                <td>
+                    <button value="{{forloop.counter}}and16" onclick="">点击预约</button>
+                </td>
+                {% endif %}
+                {% endfor %}
+
+                </tr>
+                        <tr>
+                <td> 23：00 - 24：00</td>
+                {% for i in yueli17 %}
+                {% if not i == 0 %}
+                <td class="wo">
+                    {{ i }}
+                </td>
+                {% else %}
+                <td>
+                    <button value="{{forloop.counter}}and17" onclick="">点击预约</button>
+                </td>
+                {% endif %}
+                {% endfor %}
+
+                </tr>
 
                 <style>
 

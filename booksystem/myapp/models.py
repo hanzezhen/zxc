@@ -44,11 +44,12 @@ class equipment(models.Model):
         db_table='equipment'
         verbose_name = '设备'
         verbose_name_plural = '设备'
+    epic=models.ImageField(upload_to='')
     eid=models.AutoField('编号',primary_key=True)
     ename=models.CharField('设备名',max_length=50)
     eshiyanshi=models.CharField('实验室',max_length=50)
     eguanliyuan=models.CharField('管理人',max_length=50)
-    ezhuangtai=models.CharField("状态",max_length=20)
+    ezhuangtai=models.BooleanField('设备状态',default=True)
     exianshi=models.DecimalField("限时",max_digits=10,decimal_places=1,default=100.0)#对应一周还是两周
     ejieshao1=models.CharField("介绍第一段",max_length=500,blank=True)
     ejieshao2=models.CharField("介绍第二段",max_length=500,blank=True)
@@ -88,6 +89,7 @@ class yuyue(models.Model):
     yuyuebeizhu=models.CharField("备注",max_length=200,blank=True)
     shiyanfankui=models.CharField("实验反馈",max_length=200,blank=True)
     isqiandao=models.BooleanField('违约',default=True)
+    quxiabeizhu = models.CharField('取消备注',max_length=200,blank=True)
     def __str__(self):
         return str("预约")
 

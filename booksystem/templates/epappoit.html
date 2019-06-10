@@ -79,15 +79,21 @@
                 <div>
                     {% for item in equip%}
                     <div class="polaroid">
-                        <img src="/static/images/1.jpg" alt="Norway" style="width:100%">
+                        <img src={% static item.epic %} alt="Norway" style="width:100%">
+                    {{ item.epic }}
                         <div class="container">
-                            <p>{{item.name}}</p>
-                            {% if item.quanxian1 == 1%}
-                            <p style="color: green">正常</p>
-                            <a href="/appoint{{item.eid}}/">点击预约</a>
+                            <p>{{ item.name }}</p>
+                            {% if item.quanxian1 == 1 %}
+                                {% if item.ezhuangtai == True %}
+                                    <p style="color: green">正常</p>
+                                    <a href="/appoint{{ item.eid }}/">点击预约</a>
+                                {% else %}
+                                    <p style="color: indianred">设备故障</p>
+                                    <p style="color: indianred">暂时无法使用</p>
+                                {% endif %}
                             {% endif %}
-                            {% if not item.quanxian1 == 1%}
-                            <p style="color: red">无法使用</p>
+                            {% if not item.quanxian1 == 1 %}
+                                <p style="color: red">无法使用</p>
                             <p style="color: red">联系管理员获取权限</p>
 
                             {% endif %}

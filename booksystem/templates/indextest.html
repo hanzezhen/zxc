@@ -154,8 +154,13 @@
                         <div class="container">
                             <p>{{item.ep}}</p>
                             {% if item.quanxian == '1'%}
-                                <p style="color: lightslategrey">可以预约</p>
-                                <a href="/appoint{{item.id}}/">点击预约</a>
+                               {% if item.ezhuangtai == True %}
+                                    <p style="color: green">正常</p>
+                                    <a href="/appoint{{ item.eid }}/">点击预约</a>
+                                {% else %}
+                                    <p style="color: indianred">设备故障</p>
+                                    <p style="color: indianred">暂时无法使用</p>
+                                {% endif %}
                             {% endif %}
                             {% if not item.quanxian == '1'%}
                                 <p style="color: red">无权限预约</p>

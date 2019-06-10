@@ -94,66 +94,52 @@
 
                 </tr>
                 {% for item in ep1 %}
-                <tr>
-                    <td>{{item.ydate}}&nbsp;{{item.ytimestart}} -- {{item.jieshushijian}}</td>
-                    <td>{{item.yeid.ename}}</td>
-                    <td>{{item.yeid.eshiyanshi}}</td>
-                    <td>{{item.yeid.eguanliyuan}}</td>
-                    <td><p style="color: green">{{item.yeid.ezhuangtai}}</p></td>
-                    {% if item.isquxiao == False %}
-                    <td>
-                        <button id="{{item.ydate}}an{{item.yeid.ename}}and{{item.ytimestart}}">申请取消</button>
-                    </td>
-                    {% else %}
-                    <td style="color: red;background-color: yellow">已经取消</td>
-                    {% endif %}
-                    {% if item.qiandaoshijian == True %}
-                    {% if item.shiyanfankui %}
-                    <td>已签到</td>
-                    {% else %}
-                    <td><a id="{{item.ydate}}an{{item.yeid.ename}}and{{item.ytimestart}}a" href="#"
-                           style="color: white;background-color: #1b54b4;padding-left: 20%;padding-right: 20%">签&nbsp;&nbsp;到</a>
-                    </td>
-                    {% endif %}
-                    {% else %}
-                    <td>当前时间不可签到</td>
-                    {% endif %}
+                    <tr>
+                        <td>{{ item.ydate }}&nbsp;{{ item.ytimestart }} -- {{ item.jieshushijian }}</td>
+                        <td>{{ item.yeid.ename }}</td>
+                        <td>{{ item.yeid.eshiyanshi }}</td>
+                        <td>{{ item.yeid.eguanliyuan }}</td>
 
-                </tr>
+                        {% if item.yeid.ezhuangtai == True %}
+                            <td><p style="color: green">正常</p></td>
+                        {% else %}
+                            <td><p style="color: indianred">设备故障</p></td>
+                        {% endif %}
+
+                        {% if item.isquxiao == False %}
+                            <td>
+                                <button id="{{ item.ydate }}an{{ item.yeid.ename }}and{{ item.ytimestart }}">申请取消
+                                </button>
+                            </td>
+                            {% if item.qiandaoshijian == True %}
+                                {% if item.shiyanfankui %}
+                                    <td>已签到</td>
+                                {% else %}
+                                    <td><a id="{{ item.ydate }}an{{ item.yeid.ename }}and{{ item.ytimestart }}a"
+                                           href="#"
+                                           style="color: white;background-color: #1b54b4;padding-left: 20%;padding-right: 20%">签&nbsp;&nbsp;到</a>
+                                    </td>
+                                {% endif %}
+                            {% else %}
+                                <td>当前时间不可签到</td>
+                            {% endif %}
+                        {% else %}
+                            <td style="color: red;background-color: yellow">已经取消</td>
+                            <td style="color: red;background-color: yellow">已经取消</td>
+
+                        {% endif %}
+
+
+                    </tr>
                 {% endfor %}
                 <script>
-                    $(document).ready(function () {
-                        $(":button").click(function () {
-                            var a = $(this).attr('id');
-                            $.ajax({
-                                url: '/ajax3get/',
-                                type: 'POST',
-                                contentType: 'application/json',
-                                data: JSON.stringify({
-                                    'username': a,
-                                }),
-                                headers: {'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()},
-                                success: function (data) {
-                                    var dataObj = JSON.parse(data);
-                                    if (dataObj['sttr'] == 'yes') {
-                                        alert('已经取消');
-                                        $("#" + a).hide();
-                                        var link = $('<p style="background-color: yellow;color: red">已经取消</p>');
-                                        $("#" + a).after(link)
-                                    } else if (dataObj['sttr'] == 'no') {
-                                        alert('操作有误，请重新操作');
-                                        window.location.reload();
-                                    }
-                                },
-                                error: function () {
-                                    alert('取消失败，请重新操作');
-                                    window.location.reload();
-                                }
 
-                            })
 
-                        })
-                    });
+
+
+
+
+
                     $(function () {
 
                         $("#dialog").dialog({
@@ -341,5 +327,91 @@
     <textarea rows="3" cols="60"></textarea>
 </div>
 
+<div id="dialog2" title="签到">
+    <p style="display: none"></p>
+    <ul></ul>
+    <textarea rows="3" cols="60"></textarea>
+</div>
+<script>
+    $(":button").click(function () {
+
+        var x = $(this).attr('id');
+        if (x !== '') {
+
+            $("#dialog2").find('p').html('' + x);
+
+            $.ajax({
+                url: '/ajax5get/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    'username': x
+                }),
+                headers: {'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()},
+                success: function (data) {
+                    var dataObj = JSON.parse(data);
+                    var a1 = dataObj['nianyue'];
+                    var a2 = dataObj['shijian'];
+                    var a3 = dataObj['ename'];
+                    var cc1 = '<li>预约时间：' + a1 + a2 + '</li>';
+                    var cc2 = '<li>预约设备：' + a3 + '</li>';
+                    $("#dialog2").find('ul').html('' + cc1 + cc2 + '<li>申请原因：(请填写取消此次预约的原因，如有问题，及时联系管理员)</li>');
+                }
+            });
+
+            $("#dialog2").find('textarea').html('请输入申请原因');
+            $("#dialog2").dialog("open");
+        }
+        ;
+    });
+
+
+    $(function () {
+
+        $("#dialog2").dialog({
+            autoOpen: false,
+            modal: true,
+            width: 600,
+            show: {
+                effect: "blind",
+                duration: 100
+            },
+            hide: {
+                effect: "explode",
+                duration: 100
+            },
+            buttons: {
+                'confirm': function () {
+                    var x = $(this).find('p').text();
+                    var y = $(this).find('textarea').val();
+                    $.ajax({
+                        url: '/ajax6get/',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            'username': x,
+                            'con': y,
+                        }),
+                        headers: {'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()},
+                        success: function (data) {
+                            alert('已经取消');
+                            $("#dialog2").dialog("close");
+                            var link = $('<p>取消成功</p>');
+                            $("#" + x).hide();
+                            $("#" + x).after(link);
+                        },
+                        error: function () {
+                            alert('提交失败，请重试');
+                            $("#dialog2").dialog("close");
+                        }
+                    })
+
+                },
+                'cancel': function () {
+                    $("#dialog2").dialog("close");
+                }
+            },
+        });})
+</script>
 </body>
 </html>
