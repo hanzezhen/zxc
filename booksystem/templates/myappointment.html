@@ -107,10 +107,14 @@
                         {% endif %}
 
                         {% if item.isquxiao == False %}
+                            {% if not item.qiandaoshijian == True %}
                             <td>
                                 <button id="{{ item.ydate }}an{{ item.yeid.ename }}and{{ item.ytimestart }}">申请取消
                                 </button>
                             </td>
+                                {% else %}
+                                <td>当前时间不可取消</td>
+                                {% endif %}
                             {% if item.qiandaoshijian == True %}
                                 {% if item.shiyanfankui %}
                                     <td>已签到</td>
@@ -133,12 +137,6 @@
                     </tr>
                 {% endfor %}
                 <script>
-
-
-
-
-
-
 
                     $(function () {
 

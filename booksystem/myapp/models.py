@@ -44,7 +44,7 @@ class equipment(models.Model):
         db_table='equipment'
         verbose_name = '设备'
         verbose_name_plural = '设备'
-    epic=models.ImageField(upload_to='')
+    epic=models.ImageField(upload_to='img')
     eid=models.AutoField('编号',primary_key=True)
     ename=models.CharField('设备名',max_length=50)
     eshiyanshi=models.CharField('实验室',max_length=50)
@@ -90,6 +90,7 @@ class yuyue(models.Model):
     shiyanfankui=models.CharField("实验反馈",max_length=200,blank=True)
     isqiandao=models.BooleanField('违约',default=True)
     quxiabeizhu = models.CharField('取消备注',max_length=200,blank=True)
+    quxiaoshijian = models.BooleanField('是否到了取消时间',default=False)
     def __str__(self):
         return str("预约")
 

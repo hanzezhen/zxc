@@ -80,6 +80,8 @@ class s():
             self.quanxian ='1'
         else:
             self.quanxian = False
+        self.ezhuangtai = llc.ezhuangtai
+
 from .models import quanxian,equipment
 
 @checklogin
@@ -167,12 +169,19 @@ def myappointment(request):
                 item.qiandaoshijian = True
             else:
                 item.qiandaoshijian = False
+            if isin6hour(item.ydate,item.ytimestart):
+                item.quxiaoshijian = True
+            else:item.quxiaoshijian = False
         else:
             lishil.append(item)
             item.qiandaoshijian = False
         item.jieshushijian = b
         item.save()
+    yuyuel.reverse()
     return render(request, 'myappointment.html', {'ep1': yuyuel, 'ep2': lishil, 'stu': stu})
+
+
+
 
 class equi_p:
     def __init__(self,stu,ep):
@@ -183,6 +192,19 @@ class equi_p:
         self.eid=ep.eid
         self.name = ep.ename
         self.epic = ep.epic
+        self.ezhuangtai = ep.ezhuangtai
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @checklogin
