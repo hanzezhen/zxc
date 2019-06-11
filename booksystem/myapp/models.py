@@ -55,6 +55,8 @@ class ImageStorage(FileSystemStorage):
     # 重写 _save方法
     def _save(self, name, content):
         # name为上传文件名称
+        print(type(content))
+
         import os, time, random
         # 文件扩展名
         ext = os.path.splitext(name)[1]
@@ -67,6 +69,19 @@ class ImageStorage(FileSystemStorage):
         name = os.path.join(d, fn + ext)
         # 调用父类方法
         return super(ImageStorage, self)._save(name, content)
+
+from PIL import Image
+
+def make_thumb(path, size = 480):
+    pixbuf = Image.open(path)
+    return pixbuf.resize((890,593))
+
+# from __future__ import division
+import os
+from booksystem.settings import MEDIA_ROOT
+from django.db.models.fields.files import ImageFieldFile
+
+THUMB_ROOT=r'thumb'
 
 
 class equipment(models.Model):
@@ -84,6 +99,18 @@ class equipment(models.Model):
     ejieshao1=models.CharField("介绍第一段",max_length=500,blank=True)
     ejieshao2=models.CharField("介绍第二段",max_length=500,blank=True)
     ejieshao3=models.CharField("介绍第三段",max_length=500,blank=True)
+
+    def save(self):
+        super(equipment, self).save()  # 将上传的图片先保存一下，否则报错
+        base, ext = os.path.splitext(os.path.basename(self.epic.path))
+        thumb_pixbuf = make_thumb(os.path.join(MEDIA_ROOT, self.epic.name))
+        relate_thumb_path = os.path.join(THUMB_ROOT, base + '.thumb' + ext)
+        thumb_path = os.path.join(MEDIA_ROOT, relate_thumb_path)
+        thumb_pixbuf.save(thumb_path)
+        self.epic = ImageFieldFile(self, self.epic, relate_thumb_path)
+        super(equipment, self).save()
+
+
     def __str__(self):
         return self.ename
 

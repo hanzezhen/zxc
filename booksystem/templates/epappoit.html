@@ -79,9 +79,8 @@
                 <div>
                     {% for item in equip%}
                     <div class="polaroid">
-                        <img src="/static/images/1.jpg" alt="Norway" style="width:100%">
+                        <img src={{ MEDIA_URL }}{{ item.epic }} alt="Norway" style="width:100%">
 
-                    {{ item.epic }}
                         <div class="container">
                             <p>{{ item.name }}</p>
                             {% if item.quanxian1 == 1 %}
